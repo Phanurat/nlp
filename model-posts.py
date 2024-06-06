@@ -39,9 +39,28 @@ def save_to_csv():
     df_all.to_csv('posts-quest.csv', index=False)
     messagebox.showinfo("Success", "บันทึกข้อมูลลงไฟล์ posts-quest.csv เรียบร้อยแล้ว")
 
+# ฟังก์ชันคัดลอกและวาง
+def copy():
+    root.clipboard_clear()
+    root.clipboard_append(text_entry.get("sel.first", "sel.last"))
+
+def paste():
+    try:
+        text_entry.insert(tk.INSERT, root.clipboard_get())
+    except tk.TclError:
+        pass
+
 # สร้างหน้าต่างหลัก
 root = tk.Tk()
 root.title("Post Sentiment GUI")
+
+# สร้างเมนู
+menu = tk.Menu(root)
+root.config(menu=menu)
+edit_menu = tk.Menu(menu, tearoff=0)
+menu.add_cascade(label="Edit", menu=edit_menu)
+edit_menu.add_command(label="Copy", command=copy)
+edit_menu.add_command(label="Paste", command=paste)
 
 # สร้างองค์ประกอบต่าง ๆ ใน GUI
 frame = tk.Frame(root)
